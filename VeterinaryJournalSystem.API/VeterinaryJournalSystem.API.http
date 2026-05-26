@@ -1,0 +1,6 @@
+@VeterinaryJournalSystem.API_HostAddress = http://localhost:5218
+
+GET {{VeterinaryJournalSystem.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
