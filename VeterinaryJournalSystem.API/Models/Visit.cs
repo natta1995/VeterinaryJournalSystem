@@ -30,4 +30,5 @@ public class Visit
     public string? VeterinarianId { get; set; }
 
     public StaffUser? Veterinarian { get; set; }
+
 }

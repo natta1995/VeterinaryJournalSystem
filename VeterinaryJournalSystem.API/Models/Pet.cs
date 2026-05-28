@@ -1,4 +1,5 @@
 ﻿using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Models;
 
 namespace VeterinaryJournalSystem.API.Models
 {
@@ -12,9 +13,15 @@ namespace VeterinaryJournalSystem.API.Models
 
         public string Breed { get; set; } = string.Empty;
 
+        public bool IsInsured { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
         public string OwnerId { get; set; } = string.Empty;
 
         public Owner Owner { get; set; }
 
+        public List<Visit> Visits { get; set; } = new();
+        
     }
 }
