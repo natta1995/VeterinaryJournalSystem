@@ -18,6 +18,8 @@ namespace VeterinaryJournalSystem.API
 
             builder.Services.AddControllers();
 
+            builder.Services.AddScoped<JwtTokenService>();
+
             builder.Services
             .AddIdentity<StaffUser, IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>();
