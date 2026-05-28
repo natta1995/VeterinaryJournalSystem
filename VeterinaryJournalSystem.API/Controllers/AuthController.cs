@@ -10,13 +10,17 @@ public class AuthController : ControllerBase
 {
     private readonly UserManager<StaffUser> _userManager;
     private readonly SignInManager<StaffUser> _signInManager;
+    private readonly JwtTokenService _jwtTokenService;
+
 
     public AuthController(
         UserManager<StaffUser> userManager,
-        SignInManager<StaffUser> signInManager)
+        SignInManager<StaffUser> signInManager,
+       JwtTokenService jwtTokenService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _jwtTokenService = jwtTokenService;
     }
 
     [HttpPost("register")]
@@ -70,6 +74,21 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid staff code or password.");
         }
 
-        return Ok("Login successful.");
+        var roles = await _userManager.GetRolesAsync(user);
+
+        var token = _jwtTokenService.CreateToken(user, roles);
+
+        return Ok(new
+        {
+            token,
+            user = new
+            {
+                user.Id,
+                user.FullName,
+                user.StaffCode,
+                user.Email,
+                roles
+            }
+        });
     }
 }
