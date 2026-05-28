@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using VeterinaryJournalSystem.Models;
+
+
 namespace VeterinaryJournalSystem.API
 {
     public class Program
@@ -8,7 +13,14 @@ namespace VeterinaryJournalSystem.API
 
             // Add services to the container.
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddControllers();
+
+            builder.Services
+            .AddIdentity<StaffUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 
