@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json.Serialization;
 using VeterinaryJournalSystem.API;
 using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.API.Repositories;
+using VeterinaryJournalSystem.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,9 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddScoped<JwtTokenService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IOwnerService, OwnerService>();
+builder.Services.AddScoped<IPetService, PetService>();
 
 builder.Services
     .AddIdentity<StaffUser, IdentityRole>()
@@ -45,6 +50,8 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
+
+
 
 var app = builder.Build();
 
