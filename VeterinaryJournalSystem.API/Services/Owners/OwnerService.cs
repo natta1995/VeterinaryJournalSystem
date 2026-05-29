@@ -3,7 +3,7 @@ using VeterinaryJournalSystem.API.Dtos.Owner;
 using VeterinaryJournalSystem.API.Models;
 using VeterinaryJournalSystem.API.Repositories;
 
-namespace VeterinaryJournalSystem.API.Services.Owner;
+namespace VeterinaryJournalSystem.API.Services.Owners;
 
 public class OwnerService : IOwnerService
 {

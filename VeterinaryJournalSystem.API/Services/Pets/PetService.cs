@@ -2,7 +2,7 @@
 using VeterinaryJournalSystem.API.Models;
 using VeterinaryJournalSystem.API.Repositories;
 
-namespace VeterinaryJournalSystem.API.Services.Pet;
+namespace VeterinaryJournalSystem.API.Services.Pets;
 
 public class PetService : IPetService
 {
