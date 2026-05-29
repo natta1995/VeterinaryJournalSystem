@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.API.Dtos.Visit;
-using VeterinaryJournalSystem.API.Models;
-using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.API.Services;
 
 namespace VeterinaryJournalSystem.API.Controllers;
 
@@ -12,43 +10,31 @@ namespace VeterinaryJournalSystem.API.Controllers;
 [Authorize]
 public class VisitsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IVisitService _visitService;
 
-    public VisitsController(AppDbContext context)
+    public VisitsController(IVisitService visitService)
     {
-        _context = context;
+        _visitService = visitService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreateVisit(CreateVisitDto dto)
     {
-        var pet = await _context.Pets.FindAsync(dto.PetId);
-
-        if (pet == null)
+        try
         {
-            return NotFound("Pet not found.");
+            var visit = await _visitService.CreateVisitAsync(dto);
+            return Ok(visit);
         }
-
-        var visit = new Visit
+        catch (Exception ex)
         {
-            PetId = dto.PetId,
-            ScheduledAt = dto.ScheduledAt,
-            ReasonForVisit = dto.ReasonForVisit,
-            Status = VisitStatus.Scheduled
-        };
-
-        _context.Visits.Add(visit);
-        await _context.SaveChangesAsync();
-
-        return Ok(visit);
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetVisitById(string id)
     {
-        var visit = await _context.Visits
-            .Include(v => v.Pet)
-            .FirstOrDefaultAsync(v => v.Id == id);
+        var visit = await _visitService.GetVisitByIdAsync(id);
 
         if (visit == null)
         {
@@ -61,9 +47,7 @@ public class VisitsController : ControllerBase
     [HttpGet("by-pet/{petId}")]
     public async Task<IActionResult> GetVisitsByPetId(string petId)
     {
-        var visits = await _context.Visits
-            .Where(v => v.PetId == petId)
-            .ToListAsync();
+        var visits = await _visitService.GetVisitsByPetIdAsync(petId);
 
         return Ok(visits);
     }
@@ -71,23 +55,12 @@ public class VisitsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVisit(string id, UpdateVisitDto dto)
     {
-        var visit = await _context.Visits.FindAsync(id);
+        var visit = await _visitService.UpdateVisitAsync(id, dto);
 
         if (visit == null)
         {
             return NotFound("Visit not found.");
         }
-
-        visit.ScheduledAt = dto.ScheduledAt;
-        visit.ReasonForVisit = dto.ReasonForVisit;
-        visit.Symptoms = dto.Symptoms;
-        visit.Examination = dto.Examination;
-        visit.Diagnosis = dto.Diagnosis;
-        visit.Treatment = dto.Treatment;
-        visit.VeterinarianNotes = dto.VeterinarianNotes;
-        visit.Status = dto.Status;
-
-        await _context.SaveChangesAsync();
 
         return Ok(visit);
     }

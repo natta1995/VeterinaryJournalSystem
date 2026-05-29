@@ -5,10 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 using VeterinaryJournalSystem.API;
-using VeterinaryJournalSystem.Models;
 using VeterinaryJournalSystem.API.Repositories;
+using VeterinaryJournalSystem.API.Services;
 using VeterinaryJournalSystem.API.Services.Owners;
 using VeterinaryJournalSystem.API.Services.Pets;
+using VeterinaryJournalSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IVisitService, VisitService>();
 
 builder.Services
     .AddIdentity<StaffUser, IdentityRole>()
