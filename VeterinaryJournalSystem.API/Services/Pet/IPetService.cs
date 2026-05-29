@@ -1,8 +1,7 @@
-﻿
-using VeterinaryJournalSystem.API.Dtos.Pet;
+﻿using VeterinaryJournalSystem.API.Dtos.Pet;
 using VeterinaryJournalSystem.API.Models;
 
-namespace VeterinaryJournalSystem.API.Services;
+namespace VeterinaryJournalSystem.API.Services.Pet;
 
 public interface IPetService
 {

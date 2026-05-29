@@ -7,7 +7,8 @@ using System.Text.Json.Serialization;
 using VeterinaryJournalSystem.API;
 using VeterinaryJournalSystem.Models;
 using VeterinaryJournalSystem.API.Repositories;
-using VeterinaryJournalSystem.API.Services;
+using VeterinaryJournalSystem.API.Services.Owner;
+using VeterinaryJournalSystem.API.Services.Pet;
 
 var builder = WebApplication.CreateBuilder(args);
 
