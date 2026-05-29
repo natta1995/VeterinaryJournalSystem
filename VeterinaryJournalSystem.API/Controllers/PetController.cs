@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.API.Dtos.Pet;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.API.Services;
 
 namespace VeterinaryJournalSystem.API.Controllers;
 
@@ -11,57 +10,36 @@ namespace VeterinaryJournalSystem.API.Controllers;
 [Authorize]
 public class PetsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IPetService _petService;
 
-    public PetsController(AppDbContext context)
+    public PetsController(IPetService petService)
     {
-        _context = context;
+        _petService = petService;
     }
 
     [HttpPost]
     public async Task<IActionResult> CreatePet(CreatePetDto dto)
     {
-        var owner = await _context.Owners.FindAsync(dto.OwnerId);
-
-        if (owner == null)
+        try
         {
-            return NotFound("Owner not found.");
+            var pet = await _petService.CreatePetAsync(dto);
+            return Ok(pet);
         }
-
-        var pet = new Pet
+        catch (Exception ex)
         {
-            Name = dto.Name,
-            Species = dto.Species,
-            Breed = dto.Breed,
-            DateOfBirth = dto.DateOfBirth,
-            IsInsured = dto.IsInsured,
-            OwnerId = dto.OwnerId
-        };
-
-        _context.Pets.Add(pet);
-        await _context.SaveChangesAsync();
-
-        return Ok(new
-        {
-            pet.Id,
-            pet.Name,
-            pet.Species,
-            pet.Breed,
-            pet.IsInsured,
-            pet.DateOfBirth,
-            pet.OwnerId
-        });
+            return NotFound(ex.Message);
+        }
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetPetById(string id)
     {
-        var pet = await _context.Pets
-            .Include(p => p.Visits)
-            .FirstOrDefaultAsync(p => p.Id == id);
+        var pet = await _petService.GetPetByIdAsync(id);
 
         if (pet == null)
+        {
             return NotFound("Pet not found.");
+        }
 
         return Ok(pet);
     }
@@ -69,9 +47,7 @@ public class PetsController : ControllerBase
     [HttpGet("by-owner/{ownerId}")]
     public async Task<IActionResult> GetPetsByOwnerId(string ownerId)
     {
-        var pets = await _context.Pets
-            .Where(p => p.OwnerId == ownerId)
-            .ToListAsync();
+        var pets = await _petService.GetPetsByOwnerIdAsync(ownerId);
 
         return Ok(pets);
     }
@@ -79,19 +55,12 @@ public class PetsController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdatePet(string id, UpdatePetDto dto)
     {
-        var pet = await _context.Pets.FindAsync(id);
+        var pet = await _petService.UpdatePetAsync(id, dto);
 
         if (pet == null)
+        {
             return NotFound("Pet not found.");
-
-        pet.Name = dto.Name;
-        pet.Species = dto.Species;
-        pet.Breed = dto.Breed;
-        pet.IsInsured = dto.IsInsured;
-        pet.DateOfBirth = dto.DateOfBirth;
-   
-
-        await _context.SaveChangesAsync();
+        }
 
         return Ok(pet);
     }
@@ -99,13 +68,12 @@ public class PetsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePet(string id)
     {
-        var pet = await _context.Pets.FindAsync(id);
+        var deleted = await _petService.DeletePetAsync(id);
 
-        if (pet == null)
+        if (!deleted)
+        {
             return NotFound("Pet not found.");
-
-        _context.Pets.Remove(pet);
-        await _context.SaveChangesAsync();
+        }
 
         return NoContent();
     }
