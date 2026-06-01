@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinaryJournalSystem.API
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinaryJournalSystem.Tests", "VeterinaryJournalSystem.Tests\VeterinaryJournalSystem.Tests.csproj", "{FE30BF62-499C-4774-B5BE-2054C5BC4C7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinaryJournalSystem.Client", "VeterinaryJournalSystem.Client\VeterinaryJournalSystem.Client.csproj", "{AA164921-C611-42CF-95BA-5F6D8FF02492}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{FE30BF62-499C-4774-B5BE-2054C5BC4C7B}.Release|x64.Build.0 = Release|Any CPU
 		{FE30BF62-499C-4774-B5BE-2054C5BC4C7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{FE30BF62-499C-4774-B5BE-2054C5BC4C7B}.Release|x86.Build.0 = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|x64.Build.0 = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA164921-C611-42CF-95BA-5F6D8FF02492}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
