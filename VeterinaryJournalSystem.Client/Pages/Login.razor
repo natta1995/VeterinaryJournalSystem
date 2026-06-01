@@ -1,0 +1,44 @@
+﻿@using VeterinaryJournalSystem.Client.Services
+@inject NavigationManager Navigation
+@page "/"
+@inject AuthApiService AuthApiService
+
+
+<div class="login-page">
+    <div class="login-card">
+        <h1>Veterinary Journal System</h1>
+        <p>Sign in to continue</p>
+
+        <label>Staff code</label>
+        <input @bind="staffCode" placeholder="Enter staff code" />
+
+        <label>Password</label>
+        <input @bind="password" type="password" placeholder="Enter password" />
+
+        <button @onclick="HandleLogin">Login</button>
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <p class="message">@message</p>
+        }
+    </div>
+</div>
+
+@code {
+    private string staffCode = string.Empty;
+    private string password = string.Empty;
+    private string message = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        var result = await AuthApiService.LoginAsync(staffCode, password);
+
+        if (result == null)
+        {
+            message = "Login failed";
+            return;
+        }
+
+        Navigation.NavigateTo("/dashboard");
+    }
+}
