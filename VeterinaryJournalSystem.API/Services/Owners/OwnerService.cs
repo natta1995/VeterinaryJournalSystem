@@ -33,6 +33,18 @@ public class OwnerService : IOwnerService
 
     public async Task<Owner> CreateOwnerAsync(CreateOwnerDto dto)
     {
+        var personalNumber = dto.PersonalNumber.Replace("-", "");
+
+        if (string.IsNullOrWhiteSpace(personalNumber))
+        {
+            throw new ArgumentException("Personal number is required.");
+        }
+
+        if (personalNumber.Length != 12)
+        {
+            throw new ArgumentException("Personal number must contain 12 digits.");
+        }
+
         var owner = new Owner
         {
             FullName = dto.FullName,
