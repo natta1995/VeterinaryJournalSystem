@@ -1,4 +1,5 @@
-﻿@using VeterinaryJournalSystem.Client.Services
+﻿@inject IJSRuntime JS
+@using VeterinaryJournalSystem.Client.Services
 @inject NavigationManager Navigation
 @page "/"
 @inject AuthApiService AuthApiService
@@ -38,6 +39,8 @@
             message = "Login failed";
             return;
         }
+        await JS.InvokeVoidAsync("localStorage.setItem", "authToken", result.Token);
+
 
         Navigation.NavigateTo("/dashboard");
     }
