@@ -1,4 +1,4 @@
-﻿namespace VeterinaryJournalSystem.API.Dtos
+﻿namespace VeterinaryJournalSystem.API.Dtos.Auth
 {
     public class LoginDto
     {
