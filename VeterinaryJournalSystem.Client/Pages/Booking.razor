@@ -29,6 +29,10 @@
                 <p>@foundOwner.PhoneNumber</p>
                 <p>@foundOwner.PersonalNumber</p>
 
+                <button @onclick="ShowUpdateOwnerForm">
+                    Ändra ägare
+                </button>
+
                 <h4>Djur</h4>
 
                 @if (ownerPets.Any())
@@ -40,6 +44,9 @@
                         <p> @pet.Species - @pet.Breed  </p>
                         <button @onclick="() => ShowCreateVisitForm(pet)">
                             Boka besök
+                        </button>
+                        <button @onclick="() => DeletePet(pet.Id)">
+                            Ta bort
                         </button>
                     }
                 }
@@ -84,6 +91,8 @@
 
             <button @onclick="BackToSearch">Tillbaka</button>
         </div>
+
+
     }
 
     @if (showCreatePetForm && foundOwner != null)
@@ -115,6 +124,33 @@
         </div>
 
     }
+    @if (showUpdateOwnerForm && foundOwner != null)
+    {
+        <div class="booking-card">
+            <h3>Ändra ägare</h3>
+
+            <label>Personnummer</label>
+            <input @bind="editOwnerPersonalNumber" />
+
+            <label>Namn</label>
+            <input @bind="editOwnerFullName" />
+
+            <label>Telefonnummer</label>
+            <input @bind="editOwnerPhoneNumber" />
+
+            <label>Kommentar</label>
+            <input @bind="editOwnerComment" />
+
+            <button @onclick="UpdateOwner">
+                Spara ändringar
+            </button>
+
+            <button @onclick="() => showUpdateOwnerForm = false">
+                Tillbaka
+            </button>
+        </div>
+    }
+
     @if (showCreateVisitForm && selectedPet != null)
     {
         <div class="booking-card">
@@ -306,5 +342,78 @@
         newVisitScheduledAt = DateTime.Now;
 
         message = "Besöket bokades.";
+    }
+
+    private async Task DeletePet(string petId)
+    {
+        var deleted = await PetApiService.DeletePetAsync(petId);
+
+        if (!deleted)
+        {
+            message = "Kunde inte ta bort husdjuret.";
+            return;
+        }
+
+        var petToRemove = ownerPets.FirstOrDefault(p => p.Id == petId);
+
+        if (petToRemove != null)
+        {
+            ownerPets.Remove(petToRemove);
+        }
+
+        message = "Husdjuret har tagits bort.";
+    }
+
+    private bool showUpdateOwnerForm = false;
+
+    private string editOwnerFullName = string.Empty;
+    private string editOwnerPhoneNumber = string.Empty;
+    private string editOwnerPersonalNumber = string.Empty;
+    private string? editOwnerComment;
+
+    private void ShowUpdateOwnerForm()
+    {
+        if (foundOwner == null)
+        {
+            return;
+        }
+
+        editOwnerFullName = foundOwner.FullName;
+        editOwnerPhoneNumber = foundOwner.PhoneNumber;
+        editOwnerPersonalNumber = foundOwner.PersonalNumber;
+        editOwnerComment = foundOwner.Comment;
+
+        showUpdateOwnerForm = true;
+        showCreateOwnerForm = false;
+        showCreatePetForm = false;
+    }
+
+    private async Task UpdateOwner()
+    {
+        if (foundOwner == null)
+        {
+            message = "Ingen ägare vald.";
+            return;
+        }
+
+        var request = new UpdateOwnerRequest
+        {
+            FullName = editOwnerFullName,
+            PhoneNumber = editOwnerPhoneNumber,
+            PersonalNumber = editOwnerPersonalNumber,
+            Comment = editOwnerComment
+        };
+
+        var updatedOwner = await OwnerApiService.UpdateOwnerAsync(foundOwner.Id, request);
+
+        if (updatedOwner == null)
+        {
+            message = "Kunde inte uppdatera ägare.";
+            return;
+        }
+
+        foundOwner = updatedOwner;
+        showUpdateOwnerForm = false;
+        message = "Ägaren uppdaterades.";
     }
 }

@@ -57,10 +57,30 @@ public class OwnerApiService
         return await response.Content.ReadFromJsonAsync<OwnerDto>();
     }
 
-  
+    public async Task<OwnerDto?> UpdateOwnerAsync(string ownerId, UpdateOwnerRequest request)
+    {
+        await AddAuthorizationHeaderAsync();
+
+        var response = await _httpClient.PutAsJsonAsync($"api/owners/{ownerId}", request);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+
+        return await response.Content.ReadFromJsonAsync<OwnerDto>();
+    }
+
+
 }
 
-
+public class UpdateOwnerRequest
+{
+    public string FullName { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
+    public string PersonalNumber { get; set; } = string.Empty;
+    public string? Comment { get; set; }
+}
 
 public class CreateOwnerRequest
 {
