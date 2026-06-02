@@ -1,0 +1,148 @@
+﻿@page "/booking"
+@inject OwnerApiService OwnerApiService
+@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-page">
+    <h1>Tidsbokning</h1>
+    <p>Sök först efter djurägaren med personnummer.</p>
+
+    @if (!showCreateOwnerForm)
+    {
+        <div class="booking-card">
+            <label>Personnummer</label>
+            <input @bind="personalNumber" placeholder="XXXXXX-XXXX" />
+
+            <button @onclick="SearchOwner">Sök ägare</button>
+
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <p>@message</p>
+            }
+        </div>
+
+        @if (foundOwner != null)
+        {
+            <div class="booking-card">
+                <h3>@foundOwner.FullName</h3>
+                <p>@foundOwner.PhoneNumber</p>
+                <p>@foundOwner.PersonalNumber</p>
+
+                <h4>Djur</h4>
+
+                @if (foundOwner.Pets.Any())
+                {
+                    @foreach (var pet in foundOwner.Pets)
+                    {
+                        <p>@pet.Name - @pet.Species</p>
+                    }
+                }
+                else
+                {
+                    <p>Inga djur registrerade.</p>
+                }
+            </div>
+        }
+        else if (searched)
+        {
+            <div class="booking-card">
+
+
+                <button @onclick="ShowCreateOwnerForm">
+                    Skapa ny ägare
+                </button>
+            </div>
+        }
+    }
+
+    @if (showCreateOwnerForm)
+    {
+        <div class="booking-card">
+            <h3>Skapa ny ägare</h3>
+
+            <label>Personnummer</label>
+            <input @bind="newOwnerPersonalNumber" />
+
+            <label>Namn</label>
+            <input @bind="newOwnerFullName" placeholder="För- och efternamn" />
+
+            <label>Telefonnummer</label>
+            <input @bind="newOwnerPhoneNumber" placeholder="0701234567" />
+
+            <label>Kommentar</label>
+            <input @bind="newOwnerComment" placeholder="Valfri kommentar" />
+
+            <button @onclick="CreateOwner">Skapa ägare</button>
+
+            <button @onclick="BackToSearch">
+                Tillbaka
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    private string personalNumber = string.Empty;
+    private string message = string.Empty;
+
+    private OwnerDto? foundOwner;
+    private bool searched = false;
+
+    private bool showCreateOwnerForm = false;
+
+    private string newOwnerFullName = string.Empty;
+    private string newOwnerPhoneNumber = string.Empty;
+    private string newOwnerPersonalNumber = string.Empty;
+    private string? newOwnerComment;
+
+    private async Task SearchOwner()
+    {
+        searched = true;
+        showCreateOwnerForm = false;
+        message = string.Empty;
+
+        foundOwner = await OwnerApiService.SearchOwnerByPersonalNumberAsync(personalNumber);
+
+        if (foundOwner == null)
+        {
+            message = "Ingen ägare hittades. Du kan skapa en ny ägare.";
+        }
+    }
+
+    private void ShowCreateOwnerForm()
+    {
+        newOwnerPersonalNumber = personalNumber;
+        showCreateOwnerForm = true;
+        message = string.Empty;
+    }
+
+    private void BackToSearch()
+    {
+        showCreateOwnerForm = false;
+    }
+
+    private async Task CreateOwner()
+    {
+        var request = new CreateOwnerRequest
+        {
+            FullName = newOwnerFullName,
+            PhoneNumber = newOwnerPhoneNumber,
+            PersonalNumber = newOwnerPersonalNumber,
+            Comment = newOwnerComment
+        };
+
+        var createdOwner = await OwnerApiService.CreateOwnerAsync(request);
+
+        if (createdOwner == null)
+        {
+            message = "Kunde inte skapa ägare.";
+            return;
+        }
+
+        foundOwner = createdOwner;
+        showCreateOwnerForm = false;
+        searched = true;
+        message = "Ägare skapad.";
+    }
+
+
+}
