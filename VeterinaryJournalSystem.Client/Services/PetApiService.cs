@@ -49,6 +49,15 @@ public class PetApiService
 
         return await response.Content.ReadFromJsonAsync<PetDto>();
     }
+
+    public async Task<bool> DeletePetAsync(string petId)
+    {
+        await AddAuthorizationHeaderAsync();
+
+        var response = await _httpClient.DeleteAsync($"api/pets/{petId}");
+
+        return response.IsSuccessStatusCode;
+    }
 }
 
 public class CreatePetRequest
