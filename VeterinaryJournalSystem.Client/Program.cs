@@ -15,5 +15,6 @@ builder.Services.AddScoped(sp => new HttpClient
 builder.Services.AddScoped<AuthApiService>();
 builder.Services.AddScoped<OwnerApiService>();
 builder.Services.AddScoped<PetApiService>();
+builder.Services.AddScoped<VisitApiService>();
 
 await builder.Build().RunAsync();
