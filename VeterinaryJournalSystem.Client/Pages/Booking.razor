@@ -1,12 +1,13 @@
 ﻿@page "/booking"
 @inject OwnerApiService OwnerApiService
+@inject PetApiService PetApiService
 @using VeterinaryJournalSystem.Client.Services
 
 <div class="booking-page">
     <h1>Tidsbokning</h1>
     <p>Sök först efter djurägaren med personnummer.</p>
 
-    @if (!showCreateOwnerForm)
+    @if (!showCreateOwnerForm && !showCreatePetForm)
     {
         <div class="booking-card">
             <label>Personnummer</label>
@@ -29,24 +30,29 @@
 
                 <h4>Djur</h4>
 
-                @if (foundOwner.Pets.Any())
+                @if (ownerPets.Any())
                 {
-                    @foreach (var pet in foundOwner.Pets)
+                    @foreach (var pet in ownerPets)
                     {
-                        <p>@pet.Name - @pet.Species</p>
+
+                        <h4>@pet.Name</h4>
+                        <p> @pet.Species - @pet.Breed  </p>
+
                     }
                 }
                 else
                 {
                     <p>Inga djur registrerade.</p>
                 }
+
+                <button @onclick="() => showCreatePetForm = true">
+                    Lägg till husdjur
+                </button>
             </div>
         }
         else if (searched)
         {
             <div class="booking-card">
-
-
                 <button @onclick="ShowCreateOwnerForm">
                     Skapa ny ägare
                 </button>
@@ -73,7 +79,34 @@
 
             <button @onclick="CreateOwner">Skapa ägare</button>
 
-            <button @onclick="BackToSearch">
+            <button @onclick="BackToSearch">Tillbaka</button>
+        </div>
+    }
+
+    @if (showCreatePetForm && foundOwner != null)
+    {
+        <div class="booking-card">
+            <h3>Lägg till husdjur</h3>
+
+            <label>Namn</label>
+            <input @bind="newPetName" />
+
+            <label>Art</label>
+            <input @bind="newPetSpecies" placeholder="Cat, Dog..." />
+
+            <label>Ras</label>
+            <input @bind="newPetBreed" />
+
+            <label>Födelsedatum</label>
+            <input type="date" @bind="newPetDateOfBirth" />
+
+            <label>
+                <input type="checkbox" @bind="newPetIsInsured" />
+                Försäkrad
+            </label>
+
+            <button @onclick="CreatePet">Spara husdjur</button>
+            <button @onclick="BackToOwner">
                 Tillbaka
             </button>
         </div>
@@ -88,30 +121,45 @@
     private bool searched = false;
 
     private bool showCreateOwnerForm = false;
+    private bool showCreatePetForm = false;
 
     private string newOwnerFullName = string.Empty;
     private string newOwnerPhoneNumber = string.Empty;
     private string newOwnerPersonalNumber = string.Empty;
     private string? newOwnerComment;
 
+    private List<PetDto> ownerPets = new();
+
+    private string newPetName = string.Empty;
+    private string newPetSpecies = string.Empty;
+    private string newPetBreed = string.Empty;
+    private bool newPetIsInsured = false;
+    private DateTime newPetDateOfBirth = DateTime.Today;
+
     private async Task SearchOwner()
     {
         searched = true;
         showCreateOwnerForm = false;
+        showCreatePetForm = false;
         message = string.Empty;
+        ownerPets.Clear();
 
         foundOwner = await OwnerApiService.SearchOwnerByPersonalNumberAsync(personalNumber);
 
         if (foundOwner == null)
         {
             message = "Ingen ägare hittades. Du kan skapa en ny ägare.";
+            return;
         }
+
+        ownerPets = await PetApiService.GetPetsByOwnerIdAsync(foundOwner.Id);
     }
 
     private void ShowCreateOwnerForm()
     {
         newOwnerPersonalNumber = personalNumber;
         showCreateOwnerForm = true;
+        showCreatePetForm = false;
         message = string.Empty;
     }
 
@@ -139,10 +187,51 @@
         }
 
         foundOwner = createdOwner;
+        ownerPets = await PetApiService.GetPetsByOwnerIdAsync(foundOwner.Id);
         showCreateOwnerForm = false;
         searched = true;
         message = "Ägare skapad.";
     }
 
+    private async Task CreatePet()
+    {
+        if (foundOwner == null)
+        {
+            message = "Ingen ägare vald.";
+            return;
+        }
 
+        var request = new CreatePetRequest
+        {
+            Name = newPetName,
+            Species = newPetSpecies,
+            Breed = newPetBreed,
+            IsInsured = newPetIsInsured,
+            DateOfBirth = newPetDateOfBirth,
+            OwnerId = foundOwner.Id
+        };
+
+        var createdPet = await PetApiService.CreatePetAsync(request);
+
+        if (createdPet == null)
+        {
+            message = "Kunde inte skapa husdjur.";
+            return;
+        }
+
+        ownerPets.Add(createdPet);
+
+        newPetName = string.Empty;
+        newPetSpecies = string.Empty;
+        newPetBreed = string.Empty;
+        newPetIsInsured = false;
+        newPetDateOfBirth = DateTime.Today;
+
+        showCreatePetForm = false;
+        message = "Husdjuret skapades.";
+    }
+    private void BackToOwner()
+    {
+        showCreatePetForm = false;
+    }
 }
