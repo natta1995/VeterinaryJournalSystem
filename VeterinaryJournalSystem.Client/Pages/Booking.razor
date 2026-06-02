@@ -1,6 +1,7 @@
 ﻿@page "/booking"
 @inject OwnerApiService OwnerApiService
 @inject PetApiService PetApiService
+@inject VisitApiService VisitApiService
 @using VeterinaryJournalSystem.Client.Services
 
 <div class="booking-page">
@@ -37,7 +38,9 @@
 
                         <h4>@pet.Name</h4>
                         <p> @pet.Species - @pet.Breed  </p>
-
+                        <button @onclick="() => ShowCreateVisitForm(pet)">
+                            Boka besök
+                        </button>
                     }
                 }
                 else
@@ -110,8 +113,34 @@
                 Tillbaka
             </button>
         </div>
+
     }
+    @if (showCreateVisitForm && selectedPet != null)
+    {
+        <div class="booking-card">
+            <h3>Boka besök för @selectedPet.Name</h3>
+
+            <label>Datum och tid</label>
+            <input type="datetime-local" @bind="newVisitScheduledAt" />
+
+            <label>Anledning</label>
+            <input @bind="newVisitReason" placeholder="Ex. Skadat ben" />
+
+            <button @onclick="CreateVisit">
+                Boka besök
+            </button>
+
+            <button @onclick="() => showCreateVisitForm = false">
+                Tillbaka
+            </button>
+        </div>
+    }
+
+
+
 </div>
+
+
 
 @code {
     private string personalNumber = string.Empty;
@@ -233,5 +262,49 @@
     private void BackToOwner()
     {
         showCreatePetForm = false;
+    }
+
+    private bool showCreateVisitForm = false;
+    private PetDto? selectedPet;
+
+    private DateTime newVisitScheduledAt = DateTime.Now;
+    private string newVisitReason = string.Empty;
+
+    private void ShowCreateVisitForm(PetDto pet)
+    {
+        selectedPet = pet;
+        showCreateVisitForm = true;
+        showCreatePetForm = false;
+        message = string.Empty;
+    }
+
+    private async Task CreateVisit()
+    {
+        if (selectedPet == null)
+        {
+            message = "Inget husdjur valt.";
+            return;
+        }
+
+        var request = new CreateVisitRequest
+        {
+            PetId = selectedPet.Id,
+            ScheduledAt = newVisitScheduledAt,
+            ReasonForVisit = newVisitReason
+        };
+
+        var createdVisit = await VisitApiService.CreateVisitAsync(request);
+
+        if (createdVisit == null)
+        {
+            message = "Kunde inte boka besök.";
+            return;
+        }
+
+        showCreateVisitForm = false;
+        newVisitReason = string.Empty;
+        newVisitScheduledAt = DateTime.Now;
+
+        message = "Besöket bokades.";
     }
 }
