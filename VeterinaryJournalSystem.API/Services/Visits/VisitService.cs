@@ -1,4 +1,4 @@
-﻿using VeterinaryJournalSystem.API.Dtos.Visit;
+﻿using VeterinaryJournalSystem.Application.Dtos.Visit;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
 

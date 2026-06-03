@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VeterinaryJournalSystem.API.Dtos.Owner;
+using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
 

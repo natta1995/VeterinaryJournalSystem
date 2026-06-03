@@ -1,4 +1,4 @@
-﻿using VeterinaryJournalSystem.API.Dtos.Owner;
+﻿using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
 
 namespace VeterinaryJournalSystem.API.Services.Owners;
