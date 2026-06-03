@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.Application.Dtos.Auth;
 using VeterinaryJournalSystem.Domain.Entities;
+using VeterinaryJournalSystem.Application.Services.Auth;
 
-namespace VeterinaryJournalSystem.API.Services;
+namespace VeterinaryJournalSystem.API.Services.Auth;
 
 public class AuthService : IAuthService
 {

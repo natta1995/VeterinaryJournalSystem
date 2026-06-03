@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.API.Repositories;
-using VeterinaryJournalSystem.API.Services;
-using VeterinaryJournalSystem.API.Services.Owners;
+using VeterinaryJournalSystem.Application.Repositories;
+using VeterinaryJournalSystem.Application.Services;
+
 
 namespace VeterinaryJournalSystem.Tests.Services;
 

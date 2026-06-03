@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.Domain.Entities;
 
 
-namespace VeterinaryJournalSystem.API
+namespace VeterinaryJournalSystem.Infrastructure.Data
 {
     public class AppDbContext : IdentityDbContext<StaffUser, IdentityRole, string>
     {

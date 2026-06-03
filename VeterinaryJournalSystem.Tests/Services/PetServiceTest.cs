@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.API.Repositories;
-using VeterinaryJournalSystem.API.Services.Pets;
+using VeterinaryJournalSystem.Application.Repositories;
+using VeterinaryJournalSystem.Application.Services;
 
 namespace VeterinaryJournalSystem.Tests.Services
 {

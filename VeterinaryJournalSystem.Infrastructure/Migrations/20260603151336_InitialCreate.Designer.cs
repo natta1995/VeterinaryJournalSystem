@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using VeterinaryJournalSystem.API;
+using VeterinaryJournalSystem.Infrastructure.Data;
 
 #nullable disable
 
-namespace VeterinaryJournalSystem.API.Migrations
+namespace VeterinaryJournalSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260528140622_AddPetDetails")]
-    partial class AddPetDetails
+    [Migration("20260603151336_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.API.Models.Owner", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Owner", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -183,7 +183,7 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.ToTable("Owners");
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.API.Models.Pet", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Pet", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -217,7 +217,7 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.ToTable("Pets");
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.Models.StaffUser", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.StaffUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -290,7 +290,7 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.Models.Visit", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Visit", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -347,7 +347,7 @@ namespace VeterinaryJournalSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("VeterinaryJournalSystem.Models.StaffUser", null)
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.StaffUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -356,7 +356,7 @@ namespace VeterinaryJournalSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("VeterinaryJournalSystem.Models.StaffUser", null)
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.StaffUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,7 +371,7 @@ namespace VeterinaryJournalSystem.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VeterinaryJournalSystem.Models.StaffUser", null)
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.StaffUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -380,16 +380,16 @@ namespace VeterinaryJournalSystem.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("VeterinaryJournalSystem.Models.StaffUser", null)
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.StaffUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.API.Models.Pet", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Pet", b =>
                 {
-                    b.HasOne("VeterinaryJournalSystem.API.Models.Owner", "Owner")
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.Owner", "Owner")
                         .WithMany("Pets")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -398,15 +398,15 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.Models.Visit", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Visit", b =>
                 {
-                    b.HasOne("VeterinaryJournalSystem.API.Models.Pet", "Pet")
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.Pet", "Pet")
                         .WithMany("Visits")
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VeterinaryJournalSystem.Models.StaffUser", "Veterinarian")
+                    b.HasOne("VeterinaryJournalSystem.Domain.Entities.StaffUser", "Veterinarian")
                         .WithMany()
                         .HasForeignKey("VeterinarianId");
 
@@ -415,12 +415,12 @@ namespace VeterinaryJournalSystem.API.Migrations
                     b.Navigation("Veterinarian");
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.API.Models.Owner", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Owner", b =>
                 {
                     b.Navigation("Pets");
                 });
 
-            modelBuilder.Entity("VeterinaryJournalSystem.API.Models.Pet", b =>
+            modelBuilder.Entity("VeterinaryJournalSystem.Domain.Entities.Pet", b =>
                 {
                     b.Navigation("Visits");
                 });
