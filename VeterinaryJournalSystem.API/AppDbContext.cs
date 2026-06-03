@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using VeterinaryJournalSystem.API.Models;
-using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.Domain.Entities;
+
 
 namespace VeterinaryJournalSystem.API
 {

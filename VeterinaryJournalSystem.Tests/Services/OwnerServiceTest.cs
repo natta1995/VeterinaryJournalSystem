@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
 using VeterinaryJournalSystem.API.Dtos.Owner;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
 using VeterinaryJournalSystem.API.Services;
 using VeterinaryJournalSystem.API.Services.Owners;

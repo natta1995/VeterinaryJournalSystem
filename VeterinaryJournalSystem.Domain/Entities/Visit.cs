@@ -1,7 +1,8 @@
-﻿using VeterinaryJournalSystem.API.Models;
+﻿using VeterinaryJournalSystem.Domain.Entities;
 
 
-namespace VeterinaryJournalSystem.Models;
+
+namespace VeterinaryJournalSystem.Domain.Entities;
 
 public class Visit
 {

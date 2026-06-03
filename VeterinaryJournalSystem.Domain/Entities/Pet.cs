@@ -1,7 +1,7 @@
-﻿using VeterinaryJournalSystem.API.Models;
-using VeterinaryJournalSystem.Models;
+﻿
+using VeterinaryJournalSystem.Domain.Entities;
 
-namespace VeterinaryJournalSystem.API.Models
+namespace VeterinaryJournalSystem.Domain.Entities
 {
     public class Pet
     {

@@ -1,5 +1,5 @@
 ﻿using VeterinaryJournalSystem.API.Dtos.Owner;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 
 namespace VeterinaryJournalSystem.API.Services.Owners;
 

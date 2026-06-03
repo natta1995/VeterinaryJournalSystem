@@ -1,7 +1,7 @@
 ﻿using VeterinaryJournalSystem.API.Dtos.Visit;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
-using VeterinaryJournalSystem.Models;
+
 
 namespace VeterinaryJournalSystem.API.Services;
 

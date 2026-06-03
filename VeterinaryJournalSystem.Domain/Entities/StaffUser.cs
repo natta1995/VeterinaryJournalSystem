@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace VeterinaryJournalSystem.Models;
+namespace VeterinaryJournalSystem.Domain.Entities;
 
 public class StaffUser : IdentityUser
 {

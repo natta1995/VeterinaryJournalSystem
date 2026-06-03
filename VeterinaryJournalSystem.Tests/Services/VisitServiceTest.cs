@@ -1,9 +1,8 @@
 ﻿using NSubstitute;
 using VeterinaryJournalSystem.API.Dtos.Visit;
-using VeterinaryJournalSystem.API.Models;
 using VeterinaryJournalSystem.API.Repositories;
 using VeterinaryJournalSystem.API.Services;
-using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 
 namespace VeterinaryJournalSystem.Tests.Services
 {
