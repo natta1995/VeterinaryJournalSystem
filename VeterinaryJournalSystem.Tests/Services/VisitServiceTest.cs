@@ -1,5 +1,5 @@
 ﻿using NSubstitute;
-using VeterinaryJournalSystem.API.Dtos.Visit;
+using VeterinaryJournalSystem.Application.Dtos.Visit;
 using VeterinaryJournalSystem.API.Repositories;
 using VeterinaryJournalSystem.API.Services;
 using VeterinaryJournalSystem.Domain.Entities;

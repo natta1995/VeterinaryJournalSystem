@@ -1,4 +1,4 @@
-﻿namespace VeterinaryJournalSystem.API.Dtos.Owner
+﻿namespace VeterinaryJournalSystem.Application.Dtos.Owner
 {
     public class CreateOwnerDto
     {

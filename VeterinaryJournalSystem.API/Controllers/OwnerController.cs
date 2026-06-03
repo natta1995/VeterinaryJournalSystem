@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using VeterinaryJournalSystem.API.Dtos.Owner;
+using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.API.Services.Owners;
 
 namespace VeterinaryJournalSystem.API.Controllers;

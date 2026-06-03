@@ -1,4 +1,4 @@
-﻿using VeterinaryJournalSystem.API.Dtos.Auth;
+﻿using VeterinaryJournalSystem.Application.Dtos.Auth;
 
 namespace VeterinaryJournalSystem.API.Services;
 

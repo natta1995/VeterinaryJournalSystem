@@ -1,4 +1,4 @@
-﻿using VeterinaryJournalSystem.API.Dtos.Pet;
+﻿using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
 
 namespace VeterinaryJournalSystem.API.Services.Pets;

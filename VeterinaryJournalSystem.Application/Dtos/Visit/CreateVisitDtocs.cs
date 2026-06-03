@@ -1,4 +1,4 @@
-﻿namespace VeterinaryJournalSystem.API.Dtos.Visit;
+﻿namespace VeterinaryJournalSystem.Application.Dtos.Visit;
 
 public class CreateVisitDto
 {

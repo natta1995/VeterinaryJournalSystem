@@ -1,6 +1,6 @@
 ﻿using VeterinaryJournalSystem.Domain.Entities;
 
-namespace VeterinaryJournalSystem.API.Dtos.Visit;
+namespace VeterinaryJournalSystem.Application.Dtos.Visit;
 
 public class UpdateVisitDto
 {

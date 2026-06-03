@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VeterinaryJournalSystem.API.Dtos.Auth;
+using VeterinaryJournalSystem.Application.Dtos.Auth;
 using VeterinaryJournalSystem.API.Services;
 
 namespace VeterinaryJournalSystem.API.Controllers;
