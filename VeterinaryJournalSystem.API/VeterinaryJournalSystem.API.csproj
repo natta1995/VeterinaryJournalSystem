@@ -17,4 +17,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VeterinaryJournalSystem.Application\VeterinaryJournalSystem.Application.csproj" />
+    <ProjectReference Include="..\VeterinaryJournalSystem.Infrastructure\VeterinaryJournalSystem.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
