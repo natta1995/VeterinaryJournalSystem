@@ -2,7 +2,7 @@
 using VeterinaryJournalSystem.Domain.Entities;
 
 
-namespace VeterinaryJournalSystem.Application.Services.Visits;
+namespace VeterinaryJournalSystem.Application.Interfaces;
 
 public interface IVisitService
 {

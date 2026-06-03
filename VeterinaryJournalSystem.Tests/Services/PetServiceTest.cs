@@ -5,7 +5,7 @@ using System.Text;
 using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.Application.Repositories;
-using VeterinaryJournalSystem.API.Services;
+using VeterinaryJournalSystem.Application.Services;
 
 namespace VeterinaryJournalSystem.Tests.Services
 {

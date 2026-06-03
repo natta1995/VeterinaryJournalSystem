@@ -1,7 +1,7 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
 
-namespace VeterinaryJournalSystem.Application.Services.Owners;
+namespace VeterinaryJournalSystem.Application.Interfaces;
 
 public interface IOwnerService
 {

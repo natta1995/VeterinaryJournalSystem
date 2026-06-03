@@ -1,9 +1,9 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.Application.Repositories;
-using VeterinaryJournalSystem.Application.Services.Pets;
+using VeterinaryJournalSystem.Application.Interfaces;
 
-namespace VeterinaryJournalSystem.API.Services;
+namespace VeterinaryJournalSystem.Application.Services;
 
 public class PetService : IPetService
 {

@@ -4,17 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-using VeterinaryJournalSystem.API;
 using VeterinaryJournalSystem.Application.Repositories;
 using VeterinaryJournalSystem.Infrastructure.Repositories;
-using VeterinaryJournalSystem.Application.Services.Visits;
-using VeterinaryJournalSystem.Application.Services.Pets;
-using VeterinaryJournalSystem.Application.Services.Owners;
+using VeterinaryJournalSystem.Application.Interfaces; //interface
 using VeterinaryJournalSystem.Application.Services.Auth;
 using VeterinaryJournalSystem.API.Services.Auth;  //Remove
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.API.Services;
+
 using VeterinaryJournalSystem.Infrastructure.Data;
+using VeterinaryJournalSystem.Application.Services; 
 
 
 

@@ -2,7 +2,7 @@
 using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.Application.Repositories;
-using VeterinaryJournalSystem.API.Services;
+using VeterinaryJournalSystem.Application.Services;
 
 
 namespace VeterinaryJournalSystem.Tests.Services;
