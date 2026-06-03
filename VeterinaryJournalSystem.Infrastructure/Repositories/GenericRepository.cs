@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VeterinaryJournalSystem.Application.Repositories;
+using VeterinaryJournalSystem.Infrastructure.Data;
 
-namespace VeterinaryJournalSystem.API.Repositories;
+namespace VeterinaryJournalSystem.Infrastructure.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {

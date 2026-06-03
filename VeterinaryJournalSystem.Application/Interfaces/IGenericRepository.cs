@@ -1,4 +1,4 @@
-﻿namespace VeterinaryJournalSystem.API.Repositories;
+﻿namespace VeterinaryJournalSystem.Application.Repositories;
 
 public interface IGenericRepository<T> where T : class
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.API.Repositories;
+using VeterinaryJournalSystem.Application.Repositories;
 using VeterinaryJournalSystem.Application.Services.Owners;
 
-namespace VeterinaryJournalSystem.API.Services.Owners;
+namespace VeterinaryJournalSystem.API.Services;
 
 public class OwnerService : IOwnerService
 {
