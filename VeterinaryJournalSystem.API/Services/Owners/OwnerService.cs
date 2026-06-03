@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.API.Dtos.Owner;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
 
 namespace VeterinaryJournalSystem.API.Services.Owners;

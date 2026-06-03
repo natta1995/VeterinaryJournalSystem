@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using VeterinaryJournalSystem.API.Dtos.Pet;
-using VeterinaryJournalSystem.API.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
 using VeterinaryJournalSystem.API.Services.Pets;
 

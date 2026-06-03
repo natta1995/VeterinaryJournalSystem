@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VeterinaryJournalSystem.API.Dtos.Auth;
-using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.Domain.Entities;
 
 namespace VeterinaryJournalSystem.API.Services;
 

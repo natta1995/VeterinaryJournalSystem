@@ -9,7 +9,8 @@ using VeterinaryJournalSystem.API.Repositories;
 using VeterinaryJournalSystem.API.Services;
 using VeterinaryJournalSystem.API.Services.Owners;
 using VeterinaryJournalSystem.API.Services.Pets;
-using VeterinaryJournalSystem.Models;
+using VeterinaryJournalSystem.Domain.Entities;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
