@@ -1,9 +1,11 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Visit;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
+using VeterinaryJournalSystem.Application.Services.Visits;
 
 
-namespace VeterinaryJournalSystem.API.Services;
+
+namespace VeterinaryJournalSystem.API.Services.Visits;
 
 public class VisitService : IVisitService
 {

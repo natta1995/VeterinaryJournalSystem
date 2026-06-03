@@ -1,6 +1,7 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.API.Repositories;
+using VeterinaryJournalSystem.Application.Services.Pets;
 
 namespace VeterinaryJournalSystem.API.Services.Pets;
 

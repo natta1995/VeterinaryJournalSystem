@@ -6,10 +6,16 @@ using System.Text;
 using System.Text.Json.Serialization;
 using VeterinaryJournalSystem.API;
 using VeterinaryJournalSystem.API.Repositories;
-using VeterinaryJournalSystem.API.Services;
-using VeterinaryJournalSystem.API.Services.Owners;
-using VeterinaryJournalSystem.API.Services.Pets;
+using VeterinaryJournalSystem.Application.Services.Visits;
+using VeterinaryJournalSystem.API.Services.Visits; // Remove
+using VeterinaryJournalSystem.Application.Services.Pets;
+using VeterinaryJournalSystem.API.Services.Pets;  //Remove
+using VeterinaryJournalSystem.Application.Services.Owners;
+using VeterinaryJournalSystem.API.Services.Owners;  //Remove
+using VeterinaryJournalSystem.Application.Services.Auth;
+using VeterinaryJournalSystem.API.Services.Auth;  //Remove
 using VeterinaryJournalSystem.Domain.Entities;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
