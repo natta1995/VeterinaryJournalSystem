@@ -1,0 +1,54 @@
+﻿@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-card">
+    <h3>Skapa ny ägare</h3>
+
+    <label>Personnummer</label>
+    <input @bind="newOwnerPersonalNumber" />
+
+    <label>Namn</label>
+    <input @bind="newOwnerFullName" placeholder="För- och efternamn" />
+
+    <label>Telefonnummer</label>
+    <input @bind="newOwnerPhoneNumber" placeholder="0701234567" />
+
+    <label>Kommentar</label>
+    <input @bind="newOwnerComment" placeholder="Valfri kommentar" />
+
+    <button @onclick="Submit">
+        Skapa ägare
+    </button>
+
+    <button @onclick="OnCancel">
+        Tillbaka
+    </button>
+</div>
+
+@code {
+    [Parameter] public string PersonalNumber { get; set; } = string.Empty;
+    [Parameter] public EventCallback<CreateOwnerRequest> OnCreate { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private string newOwnerFullName = string.Empty;
+    private string newOwnerPhoneNumber = string.Empty;
+    private string newOwnerPersonalNumber = string.Empty;
+    private string? newOwnerComment;
+
+    protected override void OnParametersSet()
+    {
+        newOwnerPersonalNumber = PersonalNumber;
+    }
+
+    private async Task Submit()
+    {
+        var request = new CreateOwnerRequest
+        {
+            FullName = newOwnerFullName,
+            PhoneNumber = newOwnerPhoneNumber,
+            PersonalNumber = newOwnerPersonalNumber,
+            Comment = newOwnerComment
+        };
+
+        await OnCreate.InvokeAsync(request);
+    }
+}
