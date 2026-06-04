@@ -3,6 +3,7 @@ using VeterinaryJournalSystem.Application.Dtos.Visit;
 using VeterinaryJournalSystem.Application.Services;
 using VeterinaryJournalSystem.Application.Interfaces;
 using VeterinaryJournalSystem.Domain.Entities;
+using VeterinaryJournalSystem.Domain.Enums;
 
 namespace VeterinaryJournalSystem.Tests.Services
 {

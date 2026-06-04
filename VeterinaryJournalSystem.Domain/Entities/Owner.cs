@@ -1,5 +1,4 @@
-﻿using VeterinaryJournalSystem.Domain.Entities;
-
+﻿
 namespace VeterinaryJournalSystem.Domain.Entities
 {
     public class Owner

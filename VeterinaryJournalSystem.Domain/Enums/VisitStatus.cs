@@ -1,4 +1,4 @@
-﻿namespace VeterinaryJournalSystem.Domain.Entities;
+﻿namespace VeterinaryJournalSystem.Domain.Enums;
 
 public enum VisitStatus
 {
