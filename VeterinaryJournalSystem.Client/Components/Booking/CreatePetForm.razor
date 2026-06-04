@@ -1,0 +1,53 @@
+﻿@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-card">
+    <h3>Lägg till husdjur</h3>
+
+    <label>Namn</label>
+    <input @bind="newPetName" />
+
+    <label>Art</label>
+    <input @bind="newPetSpecies" placeholder="Cat, Dog..." />
+
+    <label>Ras</label>
+    <input @bind="newPetBreed" />
+
+    <label>Födelsedatum</label>
+    <input type="date" @bind="newPetDateOfBirth" />
+
+    <label>
+        <input type="checkbox" @bind="newPetIsInsured" />
+        Försäkrad
+    </label>
+
+    <button @onclick="Submit">Spara husdjur</button>
+
+    <button @onclick="OnCancel">Tillbaka</button>
+</div>
+
+@code {
+    [Parameter] public string OwnerId { get; set; } = string.Empty;
+    [Parameter] public EventCallback<CreatePetRequest> OnCreate { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private string newPetName = string.Empty;
+    private string newPetSpecies = string.Empty;
+    private string newPetBreed = string.Empty;
+    private bool newPetIsInsured = false;
+    private DateTime newPetDateOfBirth = DateTime.Today;
+
+    private async Task Submit()
+    {
+        var request = new CreatePetRequest
+        {
+            Name = newPetName,
+            Species = newPetSpecies,
+            Breed = newPetBreed,
+            IsInsured = newPetIsInsured,
+            DateOfBirth = newPetDateOfBirth,
+            OwnerId = OwnerId
+        };
+
+        await OnCreate.InvokeAsync(request);
+    }
+}

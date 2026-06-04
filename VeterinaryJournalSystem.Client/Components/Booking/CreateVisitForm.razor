@@ -1,0 +1,40 @@
+﻿@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-card">
+    <h3>Boka besök för @Pet.Name</h3>
+
+    <label>Datum och tid</label>
+    <input type="datetime-local" @bind="scheduledAt" />
+
+    <label>Anledning</label>
+    <input @bind="reasonForVisit" placeholder="Ex. Skadat ben" />
+
+    <button @onclick="Submit">
+        Boka besök
+    </button>
+
+    <button @onclick="OnCancel">
+        Tillbaka
+    </button>
+</div>
+
+@code {
+    [Parameter] public PetDto Pet { get; set; } = default!;
+    [Parameter] public EventCallback<CreateVisitRequest> OnCreate { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private DateTime scheduledAt = DateTime.Now;
+    private string reasonForVisit = string.Empty;
+
+    private async Task Submit()
+    {
+        var request = new CreateVisitRequest
+        {
+            PetId = Pet.Id,
+            ScheduledAt = scheduledAt,
+            ReasonForVisit = reasonForVisit
+        };
+
+        await OnCreate.InvokeAsync(request);
+    }
+}

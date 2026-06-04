@@ -3,12 +3,13 @@
 @inject PetApiService PetApiService
 @inject VisitApiService VisitApiService
 @using VeterinaryJournalSystem.Client.Services
+@using VeterinaryJournalSystem.Client.Components.Booking
 
 <div class="booking-page">
     <h1>Tidsbokning</h1>
     <p>Sök först efter djurägaren med personnummer.</p>
 
-    @if (!showCreateOwnerForm && !showCreatePetForm)
+    @if (!showCreateOwnerForm && !showCreatePetForm && !showCreateVisitForm && !showUpdateOwnerForm)
     {
         <div class="booking-card">
             <label>Personnummer</label>
@@ -72,110 +73,34 @@
 
     @if (showCreateOwnerForm)
     {
-        <div class="booking-card">
-            <h3>Skapa ny ägare</h3>
-
-            <label>Personnummer</label>
-            <input @bind="newOwnerPersonalNumber" />
-
-            <label>Namn</label>
-            <input @bind="newOwnerFullName" placeholder="För- och efternamn" />
-
-            <label>Telefonnummer</label>
-            <input @bind="newOwnerPhoneNumber" placeholder="0701234567" />
-
-            <label>Kommentar</label>
-            <input @bind="newOwnerComment" placeholder="Valfri kommentar" />
-
-            <button @onclick="CreateOwner">Skapa ägare</button>
-
-            <button @onclick="BackToSearch">Tillbaka</button>
-        </div>
-
-
+        <CreateOwnerForm PersonalNumber="@personalNumber"
+                         OnCreate="CreateOwnerFromComponent"
+                         OnCancel="BackToSearch" />
     }
 
     @if (showCreatePetForm && foundOwner != null)
     {
-        <div class="booking-card">
-            <h3>Lägg till husdjur</h3>
-
-            <label>Namn</label>
-            <input @bind="newPetName" />
-
-            <label>Art</label>
-            <input @bind="newPetSpecies" placeholder="Cat, Dog..." />
-
-            <label>Ras</label>
-            <input @bind="newPetBreed" />
-
-            <label>Födelsedatum</label>
-            <input type="date" @bind="newPetDateOfBirth" />
-
-            <label>
-                <input type="checkbox" @bind="newPetIsInsured" />
-                Försäkrad
-            </label>
-
-            <button @onclick="CreatePet">Spara husdjur</button>
-            <button @onclick="BackToOwner">
-                Tillbaka
-            </button>
-        </div>
-
+        <CreatePetForm OwnerId="@foundOwner.Id"
+                       OnCreate="CreatePetFromComponent"
+                       OnCancel="BackToOwner" />
     }
+
     @if (showUpdateOwnerForm && foundOwner != null)
     {
-        <div class="booking-card">
-            <h3>Ändra ägare</h3>
-
-            <label>Personnummer</label>
-            <input @bind="editOwnerPersonalNumber" />
-
-            <label>Namn</label>
-            <input @bind="editOwnerFullName" />
-
-            <label>Telefonnummer</label>
-            <input @bind="editOwnerPhoneNumber" />
-
-            <label>Kommentar</label>
-            <input @bind="editOwnerComment" />
-
-            <button @onclick="UpdateOwner">
-                Spara ändringar
-            </button>
-
-            <button @onclick="() => showUpdateOwnerForm = false">
-                Tillbaka
-            </button>
-        </div>
+      <UpdateOwnerForm
+            Owner="foundOwner"
+            OnUpdate="UpdateOwnerFromComponent"
+            OnCancel="BackToOwnerFromUpdate" />
     }
 
     @if (showCreateVisitForm && selectedPet != null)
     {
-        <div class="booking-card">
-            <h3>Boka besök för @selectedPet.Name</h3>
-
-            <label>Datum och tid</label>
-            <input type="datetime-local" @bind="newVisitScheduledAt" />
-
-            <label>Anledning</label>
-            <input @bind="newVisitReason" placeholder="Ex. Skadat ben" />
-
-            <button @onclick="CreateVisit">
-                Boka besök
-            </button>
-
-            <button @onclick="() => showCreateVisitForm = false">
-                Tillbaka
-            </button>
-        </div>
+        <CreateVisitForm Pet="selectedPet"
+                         OnCreate="CreateVisitFromComponent"
+                         OnCancel="BackToOwnerFromVisit" />
     }
 
-
-
 </div>
-
 
 
 @code {
@@ -188,18 +113,9 @@
     private bool showCreateOwnerForm = false;
     private bool showCreatePetForm = false;
 
-    private string newOwnerFullName = string.Empty;
-    private string newOwnerPhoneNumber = string.Empty;
-    private string newOwnerPersonalNumber = string.Empty;
-    private string? newOwnerComment;
-
     private List<PetDto> ownerPets = new();
 
-    private string newPetName = string.Empty;
-    private string newPetSpecies = string.Empty;
-    private string newPetBreed = string.Empty;
-    private bool newPetIsInsured = false;
-    private DateTime newPetDateOfBirth = DateTime.Today;
+  
 
     private async Task SearchOwner()
     {
@@ -222,7 +138,6 @@
 
     private void ShowCreateOwnerForm()
     {
-        newOwnerPersonalNumber = personalNumber;
         showCreateOwnerForm = true;
         showCreatePetForm = false;
         message = string.Empty;
@@ -233,16 +148,10 @@
         showCreateOwnerForm = false;
     }
 
-    private async Task CreateOwner()
-    {
-        var request = new CreateOwnerRequest
-        {
-            FullName = newOwnerFullName,
-            PhoneNumber = newOwnerPhoneNumber,
-            PersonalNumber = newOwnerPersonalNumber,
-            Comment = newOwnerComment
-        };
 
+
+    private async Task CreateOwnerFromComponent(CreateOwnerRequest request)
+    {
         var createdOwner = await OwnerApiService.CreateOwnerAsync(request);
 
         if (createdOwner == null)
@@ -258,7 +167,7 @@
         message = "Ägare skapad.";
     }
 
-    private async Task CreatePet()
+    private async Task UpdateOwnerFromComponent(UpdateOwnerRequest request)
     {
         if (foundOwner == null)
         {
@@ -266,16 +175,21 @@
             return;
         }
 
-        var request = new CreatePetRequest
-        {
-            Name = newPetName,
-            Species = newPetSpecies,
-            Breed = newPetBreed,
-            IsInsured = newPetIsInsured,
-            DateOfBirth = newPetDateOfBirth,
-            OwnerId = foundOwner.Id
-        };
+        var updatedOwner = await OwnerApiService.UpdateOwnerAsync(foundOwner.Id, request);
 
+        if (updatedOwner == null)
+        {
+            message = "Kunde inte uppdatera ägare.";
+            return;
+        }
+
+        foundOwner = updatedOwner;
+        showUpdateOwnerForm = false;
+        message = "Ägaren uppdaterades.";
+    }
+
+    private async Task CreatePetFromComponent(CreatePetRequest request)
+    {
         var createdPet = await PetApiService.CreatePetAsync(request);
 
         if (createdPet == null)
@@ -286,15 +200,16 @@
 
         ownerPets.Add(createdPet);
 
-        newPetName = string.Empty;
-        newPetSpecies = string.Empty;
-        newPetBreed = string.Empty;
-        newPetIsInsured = false;
-        newPetDateOfBirth = DateTime.Today;
-
         showCreatePetForm = false;
         message = "Husdjuret skapades.";
     }
+
+    private void BackToOwnerFromUpdate()
+    {
+        showUpdateOwnerForm = false;
+    }
+
+    
     private void BackToOwner()
     {
         showCreatePetForm = false;
@@ -303,8 +218,6 @@
     private bool showCreateVisitForm = false;
     private PetDto? selectedPet;
 
-    private DateTime newVisitScheduledAt = DateTime.Now;
-    private string newVisitReason = string.Empty;
 
     private void ShowCreateVisitForm(PetDto pet)
     {
@@ -314,21 +227,8 @@
         message = string.Empty;
     }
 
-    private async Task CreateVisit()
+    private async Task CreateVisitFromComponent(CreateVisitRequest request)
     {
-        if (selectedPet == null)
-        {
-            message = "Inget husdjur valt.";
-            return;
-        }
-
-        var request = new CreateVisitRequest
-        {
-            PetId = selectedPet.Id,
-            ScheduledAt = newVisitScheduledAt,
-            ReasonForVisit = newVisitReason
-        };
-
         var createdVisit = await VisitApiService.CreateVisitAsync(request);
 
         if (createdVisit == null)
@@ -338,11 +238,17 @@
         }
 
         showCreateVisitForm = false;
-        newVisitReason = string.Empty;
-        newVisitScheduledAt = DateTime.Now;
-
+        selectedPet = null;
         message = "Besöket bokades.";
     }
+
+    private void BackToOwnerFromVisit()
+    {
+        showCreateVisitForm = false;
+        selectedPet = null;
+    }
+
+   
 
     private async Task DeletePet(string petId)
     {
@@ -366,54 +272,17 @@
 
     private bool showUpdateOwnerForm = false;
 
-    private string editOwnerFullName = string.Empty;
-    private string editOwnerPhoneNumber = string.Empty;
-    private string editOwnerPersonalNumber = string.Empty;
-    private string? editOwnerComment;
+
 
     private void ShowUpdateOwnerForm()
     {
-        if (foundOwner == null)
-        {
-            return;
-        }
-
-        editOwnerFullName = foundOwner.FullName;
-        editOwnerPhoneNumber = foundOwner.PhoneNumber;
-        editOwnerPersonalNumber = foundOwner.PersonalNumber;
-        editOwnerComment = foundOwner.Comment;
-
         showUpdateOwnerForm = true;
         showCreateOwnerForm = false;
         showCreatePetForm = false;
+        showCreateVisitForm = false;
+        message = string.Empty;
+
     }
 
-    private async Task UpdateOwner()
-    {
-        if (foundOwner == null)
-        {
-            message = "Ingen ägare vald.";
-            return;
-        }
-
-        var request = new UpdateOwnerRequest
-        {
-            FullName = editOwnerFullName,
-            PhoneNumber = editOwnerPhoneNumber,
-            PersonalNumber = editOwnerPersonalNumber,
-            Comment = editOwnerComment
-        };
-
-        var updatedOwner = await OwnerApiService.UpdateOwnerAsync(foundOwner.Id, request);
-
-        if (updatedOwner == null)
-        {
-            message = "Kunde inte uppdatera ägare.";
-            return;
-        }
-
-        foundOwner = updatedOwner;
-        showUpdateOwnerForm = false;
-        message = "Ägaren uppdaterades.";
-    }
+    
 }

@@ -1,0 +1,57 @@
+﻿@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-card">
+    <h3>Ändra ägare</h3>
+
+    <label>Personnummer</label>
+    <input @bind="editPersonalNumber" />
+
+    <label>Namn</label>
+    <input @bind="editFullName" />
+
+    <label>Telefonnummer</label>
+    <input @bind="editPhoneNumber" />
+
+    <label>Kommentar</label>
+    <input @bind="editComment" />
+
+    <button @onclick="Submit">
+        Spara ändringar
+    </button>
+
+    <button @onclick="OnCancel">
+        Tillbaka
+    </button>
+</div>
+
+@code {
+    [Parameter] public OwnerDto Owner { get; set; } = default!;
+    [Parameter] public EventCallback<UpdateOwnerRequest> OnUpdate { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+
+    private string editFullName = string.Empty;
+    private string editPhoneNumber = string.Empty;
+    private string editPersonalNumber = string.Empty;
+    private string? editComment;
+
+    protected override void OnParametersSet()
+    {
+        editFullName = Owner.FullName;
+        editPhoneNumber = Owner.PhoneNumber;
+        editPersonalNumber = Owner.PersonalNumber;
+        editComment = Owner.Comment;
+    }
+
+    private async Task Submit()
+    {
+        var request = new UpdateOwnerRequest
+        {
+            FullName = editFullName,
+            PhoneNumber = editPhoneNumber,
+            PersonalNumber = editPersonalNumber,
+            Comment = editComment
+        };
+
+        await OnUpdate.InvokeAsync(request);
+    }
+}
