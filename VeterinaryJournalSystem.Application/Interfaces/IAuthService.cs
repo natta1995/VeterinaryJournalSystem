@@ -1,6 +1,6 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Auth;
 
-namespace VeterinaryJournalSystem.Application.Services.Auth;
+namespace VeterinaryJournalSystem.Application.Interfaces;
 
 public interface IAuthService
 {

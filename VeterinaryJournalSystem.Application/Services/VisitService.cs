@@ -1,6 +1,5 @@
 ﻿using VeterinaryJournalSystem.Application.Dtos.Visit;
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.Application.Repositories;
 using VeterinaryJournalSystem.Application.Interfaces;
 
 

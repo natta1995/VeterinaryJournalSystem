@@ -3,11 +3,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using VeterinaryJournalSystem.Application.Interfaces;
 using VeterinaryJournalSystem.Domain.Entities;
 
-public class JwtTokenService
+public class JwtTokenService : IJwtTokenService
 {
     private readonly IConfiguration _configuration;
+
 
     public JwtTokenService(IConfiguration configuration)
     {
