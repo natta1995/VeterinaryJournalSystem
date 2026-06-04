@@ -1,7 +1,4 @@
 ﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using VeterinaryJournalSystem.Application.Dtos.Pet;
 using VeterinaryJournalSystem.Domain.Entities;
 using VeterinaryJournalSystem.Application.Interfaces;

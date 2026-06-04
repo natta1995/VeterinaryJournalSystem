@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using VeterinaryJournalSystem.Application.Interfaces; 
 using VeterinaryJournalSystem.Application.Services; 
 using VeterinaryJournalSystem.Domain.Entities;
@@ -24,7 +24,6 @@ builder.Services.AddControllers()
             ReferenceHandler.IgnoreCycles;
     });
 
-builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IPetService, PetService>();

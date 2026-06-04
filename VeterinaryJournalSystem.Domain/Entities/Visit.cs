@@ -1,6 +1,4 @@
-﻿using VeterinaryJournalSystem.Domain.Entities;
-
-
+﻿using VeterinaryJournalSystem.Domain.Enums;
 
 namespace VeterinaryJournalSystem.Domain.Entities;
 
