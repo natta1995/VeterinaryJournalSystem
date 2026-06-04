@@ -4,15 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-using VeterinaryJournalSystem.Application.Repositories;
-using VeterinaryJournalSystem.Infrastructure.Repositories;
-using VeterinaryJournalSystem.Application.Interfaces; //interface
-using VeterinaryJournalSystem.Application.Services.Auth;
-using VeterinaryJournalSystem.API.Services.Auth;  //Remove
-using VeterinaryJournalSystem.Domain.Entities;
-
-using VeterinaryJournalSystem.Infrastructure.Data;
+using VeterinaryJournalSystem.Application.Interfaces; 
 using VeterinaryJournalSystem.Application.Services; 
+using VeterinaryJournalSystem.Domain.Entities;
+using VeterinaryJournalSystem.Infrastructure.Data;
+using VeterinaryJournalSystem.Infrastructure.Repositories;
 
 
 
@@ -34,6 +30,8 @@ builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IVisitService, VisitService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 builder.Services
     .AddIdentity<StaffUser, IdentityRole>()

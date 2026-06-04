@@ -1,7 +1,7 @@
 ﻿using NSubstitute;
 using VeterinaryJournalSystem.Application.Dtos.Owner;
 using VeterinaryJournalSystem.Domain.Entities;
-using VeterinaryJournalSystem.Application.Repositories;
+using VeterinaryJournalSystem.Application.Interfaces;
 using VeterinaryJournalSystem.Application.Services;
 
 

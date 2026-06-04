@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VeterinaryJournalSystem.Application.Repositories;
+using VeterinaryJournalSystem.Application.Interfaces;
 using VeterinaryJournalSystem.Infrastructure.Data;
 
 namespace VeterinaryJournalSystem.Infrastructure.Repositories;
