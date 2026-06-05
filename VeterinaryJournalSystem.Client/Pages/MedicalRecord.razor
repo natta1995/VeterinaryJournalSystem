@@ -8,8 +8,7 @@
 <div class="booking-page">
 
  @if (!showVisitList && !showVisitDetails) {
-<h3>Patientjournaler</h3>
-
+<h1>Patientjournaler</h1>
  <p>Sök först efter djurägaren med personnummer.</p>
 
 
@@ -29,19 +28,24 @@
         @if (foundOwner != null)
         {
             <div class="booking-card">
-                <h3>@foundOwner.FullName</h3>
-                <p>@foundOwner.PersonalNumber</p>
+                <h4>Ägare: @foundOwner.FullName - @foundOwner.PersonalNumber</h4>
+                <p>Notering @foundOwner.Comment</p>
 
-                <h4>Djur</h4>
+                <h4>Husdjur:</h4>
 
                 @if (ownerPets.Any())
                 {
                     @foreach (var pet in ownerPets)
                     {
 
-                        <h4>@pet.Name</h4>
-                        <p> @pet.Species - @pet.Breed  </p>
-
+                        <h4>Namn: @pet.Name</h4>
+                        <p> Art: @pet.Species  </p>
+                        <p>Ras: @pet.Breed  </p>
+                        <p>Född: @pet.DateOfBirth.ToString("yyyy-MM-dd")</p>
+                        <p>
+                            Försäkrad:
+                            @(pet.IsInsured ? "✅" : "➖")
+                        </p>
                     <button @onclick="() => OpenJournal(pet)">
                         Öppna Journal
                     </button>
@@ -221,4 +225,4 @@
 
 }
 
-}
+

@@ -6,11 +6,12 @@
 @using VeterinaryJournalSystem.Client.Components.Booking
 
 <div class="booking-page">
-    <h1>Tidsbokning</h1>
-    <p>Sök först efter djurägaren med personnummer.</p>
+  
 
     @if (!showCreateOwnerForm && !showCreatePetForm && !showCreateVisitForm && !showUpdateOwnerForm)
     {
+        <h1>Tidsbokning</h1>
+        <p>Sök först efter djurägaren med personnummer.</p>
         <div class="booking-card">
             <label>Personnummer</label>
             <input @bind="personalNumber" placeholder="XXXXXX-XXXX" />
@@ -26,25 +27,33 @@
         @if (foundOwner != null)
         {
             <div class="booking-card">
-                <h3>@foundOwner.FullName</h3>
-                <p>@foundOwner.PhoneNumber</p>
-                <p>@foundOwner.PersonalNumber</p>
+                <h4>Ägare: @foundOwner.FullName</h4>
+                <p>Telefonnummer: @foundOwner.PhoneNumber</p>
+                <p>Personnummer: @foundOwner.PersonalNumber</p>
+                <p>Notering @foundOwner.Comment</p>
+
 
                 <button @onclick="ShowUpdateOwnerForm">
-                    Ändra ägare
+                    Uppdatera ägar information
                 </button>
 
-                <h4>Djur</h4>
+                <h4>Husdjur:</h4>
 
                 @if (ownerPets.Any())
                 {
                     @foreach (var pet in ownerPets)
                     {
 
-                        <h4>@pet.Name</h4>
-                        <p> @pet.Species - @pet.Breed  </p>
+                        <h4>Namn: @pet.Name</h4>
+                        <p> Art: @pet.Species </p>
+                        <p>Ras: @pet.Breed </p>
+                        <p>Född: @pet.DateOfBirth.ToString("yyyy-MM-dd")</p>
+                        <p>
+                            Försäkrad:
+                            @(pet.IsInsured ? "✅" : "➖")
+                        </p>
                         <button @onclick="() => ShowCreateVisitForm(pet)">
-                            Boka besök
+                            Boka tid
                         </button>
                         <button @onclick="() => DeletePet(pet.Id)">
                             Ta bort
@@ -114,6 +123,7 @@
     private bool showCreatePetForm = false;
 
     private List<PetDto> ownerPets = new();
+
 
   
 
