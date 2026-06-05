@@ -10,7 +10,7 @@ public interface IVisitService
 
     Task<Visit?> GetVisitByIdAsync(string id);
 
-    Task<List<Visit>> GetVisitsByPetIdAsync(string petId);
+    Task<List<VisitDto>> GetVisitsByPetIdAsync(string petId);
 
     Task<Visit?> UpdateVisitAsync(string id, UpdateVisitDto dto);
 }
