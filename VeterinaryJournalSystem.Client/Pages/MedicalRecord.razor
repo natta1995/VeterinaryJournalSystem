@@ -1,9 +1,224 @@
 ﻿@page "/medical-record"
 
+@inject OwnerApiService OwnerApiService
+@inject PetApiService PetApiService
+@inject VisitApiService VisitApiService
+@using VeterinaryJournalSystem.Client.Services
+
+<div class="booking-page">
+
+ @if (!showVisitList && !showVisitDetails) {
 <h3>Patientjournaler</h3>
+
+ <p>Sök först efter djurägaren med personnummer.</p>
+
+
+    @if (foundOwner == null){
+        <div class="booking-card">
+            <label>Personnummer</label>
+            <input @bind="personalNumber" placeholder="XXXXXX-XXXX" />
+
+            <button @onclick="SearchOwner">Sök ägare</button>
+
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <p>@message</p>
+            }
+        </div>
+    }
+        @if (foundOwner != null)
+        {
+            <div class="booking-card">
+                <h3>@foundOwner.FullName</h3>
+                <p>@foundOwner.PersonalNumber</p>
+
+                <h4>Djur</h4>
+
+                @if (ownerPets.Any())
+                {
+                    @foreach (var pet in ownerPets)
+                    {
+
+                        <h4>@pet.Name</h4>
+                        <p> @pet.Species - @pet.Breed  </p>
+
+                    <button @onclick="() => OpenJournal(pet)">
+                        Öppna Journal
+                    </button>
+                    }
+                }
+                else
+                {
+                    <p>Inga djur registrerade.</p>
+                }
+               
+               
+            </div>
+            }
+}
+    @if (showVisitList && selectedPet != null && !showVisitDetails)
+    {
+        <div class="booking-card">
+            <h3>Journal för @selectedPet.Name</h3>
+
+            @if (petVisits.Any()){
+            
+                @foreach (var visit in petVisits)
+                {
+                    <div>
+                        <p>@visit.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</p>
+                        <p>@visit.ReasonForVisit</p>
+
+                        <button @onclick="() => OpenVisit(visit)">
+                            Öppna besök
+                        </button>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Inga besök hittades.</p>
+            }
+
+            <button @onclick="BackToSearch">
+                Tillbaka
+            </button>
+        </div>
+    }
+
+    @if (showVisitDetails && selectedVisit != null)
+{
+    <div class="booking-card">
+
+        <h3>Journal</h3>
+
+        <label>Anledning</label>
+        <input @bind="selectedVisit.ReasonForVisit" />
+
+        <label>Symptom</label>
+        <textarea @bind="selectedVisit.Symptoms"></textarea>
+
+        <label>Undersökning</label>
+        <textarea @bind="selectedVisit.Examination"></textarea>
+
+        <label>Diagnos</label>
+        <textarea @bind="selectedVisit.Diagnosis"></textarea>
+
+        <label>Behandling</label>
+        <textarea @bind="selectedVisit.Treatment"></textarea>
+
+        <label>Veterinärens anteckningar</label>
+        <textarea @bind="selectedVisit.VeterinarianNotes"></textarea>
+
+        <button @onclick="SaveVisit">
+            Spara
+        </button>
+
+        <button @onclick="CloseVisit">
+            Tillbaka
+        </button>
+
+    </div>
+}
+</div>
 
 
 
 @code {
+    private string personalNumber = string.Empty;
+    private string message = string.Empty;
+
+    private OwnerDto? foundOwner;
+    private bool searched = false;
+
+    private bool showVisitList = false;
+    private PetDto? selectedPet;
+    private List<VisitDto> petVisits = new();
+
+    private bool showVisitDetails = false;
+    private VisitDto? selectedVisit;
+
+    private List<PetDto> ownerPets = new();
+
+    private async Task SearchOwner()
+    {
+        searched = true;
+
+        message = string.Empty;
+        ownerPets.Clear();
+
+        foundOwner = await OwnerApiService.SearchOwnerByPersonalNumberAsync(personalNumber);
+
+        if (foundOwner == null)
+        {
+            message = "Ingen ägare hittades.";
+            return;
+        }
+
+        ownerPets = await PetApiService.GetPetsByOwnerIdAsync(foundOwner.Id);
+    }
+
+    private async Task OpenJournal(PetDto pet)
+    {
+        selectedPet = pet;
+        showVisitList = true;
+        message = string.Empty;
+
+        petVisits = await VisitApiService.GetVisitsByPetIdAsync(pet.Id);
+    }
+
+    private void BackToSearch()
+    {
+        showVisitList = false;
+        selectedPet = null;
+        petVisits.Clear();
+    }
+
+    private void OpenVisit(VisitDto visit)
+    {
+        selectedVisit = visit;
+        showVisitDetails = true;
+    }
+
+    private void CloseVisit()
+    {
+        showVisitDetails = false;
+        selectedVisit = null;
+    }
+
+    private async Task SaveVisit()
+    {
+        if (selectedVisit == null)
+        {
+            message = "Inget besök valt.";
+            return;
+        }
+
+        var request = new UpdateVisitRequest
+        {
+            ScheduledAt = selectedVisit.ScheduledAt,
+            ReasonForVisit = selectedVisit.ReasonForVisit,
+            Symptoms = selectedVisit.Symptoms,
+            Examination = selectedVisit.Examination,
+            Diagnosis = selectedVisit.Diagnosis,
+            Treatment = selectedVisit.Treatment,
+            VeterinarianNotes = selectedVisit.VeterinarianNotes,
+            Status = selectedVisit.Status
+        };
+
+        var updatedVisit = await VisitApiService.UpdateVisitAsync(selectedVisit.Id, request);
+
+        if (updatedVisit == null)
+        {
+            message = "Kunde inte spara journalen.";
+            return;
+        }
+
+        selectedVisit = updatedVisit;
+        showVisitDetails = false;
+        message = "Journalen sparades.";
+    }
+
+}
 
 }

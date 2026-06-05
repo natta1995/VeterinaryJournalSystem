@@ -48,12 +48,25 @@ public class VisitService : IVisitService
         return await _visitRepository.GetByIdAsync(id);
     }
 
-    public async Task<List<Visit>> GetVisitsByPetIdAsync(string petId)
+    public async Task<List<VisitDto>> GetVisitsByPetIdAsync(string petId)
     {
         var visits = await _visitRepository.GetAllAsync();
 
         return visits
             .Where(v => v.PetId == petId)
+            .Select(v => new VisitDto
+            {
+                Id = v.Id,
+                PetId = v.PetId,
+                ScheduledAt = v.ScheduledAt,
+                ReasonForVisit = v.ReasonForVisit,
+                Symptoms = v.Symptoms,
+                Examination = v.Examination,
+                Diagnosis = v.Diagnosis,
+                Treatment = v.Treatment,
+                VeterinarianNotes = v.VeterinarianNotes,
+                Status = v.Status
+            })
             .ToList();
     }
 
