@@ -5,9 +5,9 @@ namespace VeterinaryJournalSystem.Application.Interfaces;
 
 public interface IPetService
 {
-    Task<List<Pet>> GetPetsByOwnerIdAsync(string ownerId);
+    Task<List<Pet>> GetPetsByOwnerIdAsync(string ownerId); // här
 
-    Task<Pet?> GetPetByIdAsync(string id);
+    Task<Pet?> GetPetByIdAsync(string id); // här
 
     Task<Pet> CreatePetAsync(CreatePetDto dto);
 

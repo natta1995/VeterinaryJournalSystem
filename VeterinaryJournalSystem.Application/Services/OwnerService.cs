@@ -13,21 +13,54 @@ public class OwnerService : IOwnerService
         _ownerRepository = ownerRepository;
     }
 
-    public async Task<List<Owner>> GetAllOwnersAsync()
-    {
-        return await _ownerRepository.GetAllAsync();
-    }
-
-    public async Task<Owner?> GetOwnerByIdAsync(string id)
-    {
-        return await _ownerRepository.GetByIdAsync(id);
-    }
-
-    public async Task<Owner?> SearchOwnerByPersonalNumberAsync(string personalNumber)
+    public async Task<List<OwnerDto>> GetAllOwnersAsync()
     {
         var owners = await _ownerRepository.GetAllAsync();
 
-        return owners.FirstOrDefault(o => o.PersonalNumber == personalNumber);
+        return owners.Select(o => new OwnerDto
+        {
+            Id = o.Id,
+            FullName = o.FullName,
+            PhoneNumber = o.PhoneNumber,
+            PersonalNumber = o.PersonalNumber,
+            Comment = o.Comment
+        }).ToList();
+    }
+
+    public async Task<OwnerDto?> GetOwnerByIdAsync(string id)
+    {
+        var owner = await _ownerRepository.GetByIdAsync(id);
+
+        if (owner == null)
+            return null;
+
+        return new OwnerDto
+        {
+            Id = owner.Id,
+            FullName = owner.FullName,
+            PhoneNumber = owner.PhoneNumber,
+            PersonalNumber = owner.PersonalNumber,
+            Comment = owner.Comment
+        };
+    }
+
+    public async Task<OwnerDto?> SearchOwnerByPersonalNumberAsync(string personalNumber)
+    {
+        var owners = await _ownerRepository.GetAllAsync();
+
+        var owner = owners.FirstOrDefault(o => o.PersonalNumber == personalNumber);
+
+        if (owner == null)
+            return null;
+
+        return new OwnerDto
+        {
+            Id = owner.Id,
+            FullName = owner.FullName,
+            PhoneNumber = owner.PhoneNumber,
+            PersonalNumber = owner.PersonalNumber,
+            Comment = owner.Comment
+        };
     }
 
     public async Task<Owner> CreateOwnerAsync(CreateOwnerDto dto)
