@@ -5,11 +5,11 @@ namespace VeterinaryJournalSystem.Application.Interfaces;
 
 public interface IOwnerService
 {
-    Task<List<Owner>> GetAllOwnersAsync();
+    Task<List<OwnerDto>> GetAllOwnersAsync();
 
-    Task<Owner?> GetOwnerByIdAsync(string id);
+    Task<OwnerDto?> GetOwnerByIdAsync(string id);
 
-    Task<Owner?> SearchOwnerByPersonalNumberAsync(string personalNumber);
+    Task<OwnerDto?> SearchOwnerByPersonalNumberAsync(string personalNumber);
 
     Task<Owner> CreateOwnerAsync(CreateOwnerDto dto);
 
