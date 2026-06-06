@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BEE32092-294D-4593-A4BA-12A43440A6E1}"
 	ProjectSection(SolutionItems) = preProject
 		build-and-test.yml = build-and-test.yml
+		deploy.yml = deploy.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeterinaryJournalSystem.Domain", "VeterinaryJournalSystem.Domain\VeterinaryJournalSystem.Domain.csproj", "{41B61E10-8B8C-4F2D-BADB-0DAA108340DD}"
