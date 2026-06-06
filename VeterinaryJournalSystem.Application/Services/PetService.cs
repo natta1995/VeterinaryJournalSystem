@@ -17,18 +17,43 @@ public class PetService : IPetService
         _ownerRepository = ownerRepository;
     }
 
-    public async Task<List<Pet>> GetPetsByOwnerIdAsync(string ownerId)
+    public async Task<List<PetDto>> GetPetsByOwnerIdAsync(string ownerId)
     {
         var pets = await _petRepository.GetAllAsync();
 
-        return pets.Where(p => p.OwnerId == ownerId).ToList();
+        return pets
+            .Where(p => p.OwnerId == ownerId)
+            .Select(p => new PetDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Species = p.Species,
+                Breed = p.Breed,
+                IsInsured = p.IsInsured,
+                DateOfBirth = p.DateOfBirth,
+                OwnerId = p.OwnerId
+            })
+            .ToList();
     }
 
-    public async Task<Pet?> GetPetByIdAsync(string id)
+    public async Task<PetDto?> GetPetByIdAsync(string id)
     {
-        return await _petRepository.GetByIdAsync(id);
-    }
+        var pet = await _petRepository.GetByIdAsync(id);
 
+        if (pet == null)
+            return null;
+
+        return new PetDto
+        {
+            Id = pet.Id,
+            Name = pet.Name,
+            Species = pet.Species,
+            Breed = pet.Breed,
+            IsInsured = pet.IsInsured,
+            DateOfBirth = pet.DateOfBirth,
+            OwnerId = pet.OwnerId
+        };
+    }
     public async Task<Pet> CreatePetAsync(CreatePetDto dto)
     {
         var owner = await _ownerRepository.GetByIdAsync(dto.OwnerId);
