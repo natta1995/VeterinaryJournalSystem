@@ -8,9 +8,9 @@ public interface IVisitService
 {
     Task<Visit> CreateVisitAsync(CreateVisitDto dto);
 
-    Task<Visit?> GetVisitByIdAsync(string id); // här
+    Task<VisitDto?> GetVisitByIdAsync(string id); 
 
-    Task<List<VisitDto>> GetVisitsByPetIdAsync(string petId); // här
+    Task<List<VisitDto>> GetVisitsByPetIdAsync(string petId); 
 
     Task<Visit?> UpdateVisitAsync(string id, UpdateVisitDto dto);
 }

@@ -43,9 +43,26 @@ public class VisitService : IVisitService
         return visit;
     }
 
-    public async Task<Visit?> GetVisitByIdAsync(string id)
+    public async Task<VisitDto?> GetVisitByIdAsync(string id)
     {
-        return await _visitRepository.GetByIdAsync(id);
+        var visit = await _visitRepository.GetByIdAsync(id);
+
+        if (visit == null)
+            return null;
+
+        return new VisitDto
+        {
+            Id = visit.Id,
+            PetId = visit.PetId,
+            ScheduledAt = visit.ScheduledAt,
+            ReasonForVisit = visit.ReasonForVisit,
+            Symptoms = visit.Symptoms,
+            Examination = visit.Examination,
+            Diagnosis = visit.Diagnosis,
+            Treatment = visit.Treatment,
+            VeterinarianNotes = visit.VeterinarianNotes,
+            Status = visit.Status
+        };
     }
 
     public async Task<List<VisitDto>> GetVisitsByPetIdAsync(string petId)
