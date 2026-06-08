@@ -70,6 +70,12 @@ dotnet ef database update
 
 Användare kan registreras via API:t och därefter logga in via Blazor-klienten.
 
+Frontenden är deployad via GitHub Pages. För att den deployade versionen ska fungera används:
+<base href="/VeterinaryJournalSystem/" />
+Om projektet körs lokalt kan den behöva ändras till:
+<base href="/" />
+beroende på hur projektet startas.
+
 
 # Frontendflöde - Flödesdiagram
 
